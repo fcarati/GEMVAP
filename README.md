@@ -1,10 +1,10 @@
-# 🧠 Article Code v4
+# 🧠 GEMVAP
 
-This repository contains code used in the analysis and visualization of predictor selection and thresholding techniques as part of a larger research project. It includes helper functions to process training and test datasets, select important predictors, and visualize performance comparisons.
+This repository contains code used in the analysis and visualization of predictor selection and thresholding techniques as part of the GEMVAP research project. It includes helper functions to process training and test datasets, select important predictors, and visualize performance comparisons.
 
 ## 🚀 Features
 
-- Custom predictor selection using domain-specific thresholds.
+- Custom predictor selection using gene-specific thresholds.
 - Training and test trace visualization.
 - Modular code design for reproducibility.
 
