@@ -1,0 +1,54 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# GEMVAP Pipeline — gnomAD v4 configuration
+# Edit this file to change pipeline settings without touching the notebook.
+# All paths are relative to the gemvap_clean_pipeline/ directory (notebook CWD).
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Input data ───────────────────────────────────────────────────────────────
+data_path:           "data/raw/FBN1_tableS1_allmissense_gnomad4.tsv"
+conserved_data_path: "data/raw/FBN1_tableS1_indomconserved.tsv"
+pejaver_thresholds:  "data/raw/pejaver2022_thresholds.csv"
+new_denovo_path:     "data/raw/New_denovo.xlsx"        # original de novo xlsx (cDNA column)
+new_denovo_path_2:   "data/raw/20260708 de novo.xlsx"  # 2026 NGS report (Mutation c. column)
+
+# ── DDGun-Seq stability comparison (Step 3) ─────────────────────────────────
+# Per-variant DDGun-Seq S_DDG[SEQ] predictions for P35555/FBN1 (hhblits +
+# uniclust30 profile). Optional: set to "" to skip the comparison plot.
+ddgun_data_path: "data/raw/P35555_ddgun_hhblits_all.tsv"
+
+# ── AlphaMissense comparison (publication boxplot) ──────────────────────────
+# FBN1-region extract (chr15:48.40-48.65Mb) of AlphaMissense's genome-wide
+# hg38 predictions, joined by (chr, pos, ref, alt) -- same file used by the
+# Part 3 Venn diagrams. Optional: set to "" to skip the AlphaMissense-overlay
+# boxplot (AlphaMissense predates Pejaver et al. 2022, so it isn't part of
+# pejaver_thresholds.csv and can't ride along with the other individual
+# predictors).
+alphamissense_data_path: "data/raw/AlphaMissense_hg38_FBN1.tsv"
+
+# ── Output ───────────────────────────────────────────────────────────────────
+output_dir: "output/gemvap_notebook_gnomad4"
+
+# ── Reproducibility ──────────────────────────────────────────────────────────
+seed: 42
+
+# ── Model variants ───────────────────────────────────────────────────────────
+train_gemvap2: true    # non-cysteine variants
+train_gemvap3: true    # non-cysteine + outside conserved domains
+
+# ── Calibration ──────────────────────────────────────────────────────────────
+prior_override:      0.0441   # Pejaver 2022 genome-wide prior; 0 = infer from data
+n_bootstrap_calib:   1000     # inner bootstrap iterations for PP3/BP4 CIs
+
+# ── Bootstrap robustness (Step 5) ────────────────────────────────────────────
+n_bootstrap_iters:   200      # outer bootstrap iterations
+train_fraction:      0.8
+test_fraction:       0.8
+n_bootstrap_inner:   200      # inner PP3/BP4 bootstrap per outer iteration
+bootstrap_base_seed: 0
+test_dom_mask:       false    # true = restrict bootstrap test to non-cys/non-dom
+
+# ── Evaluation ───────────────────────────────────────────────────────────────
+strict_evaluation:   false   # count pathogenic VUS as FN in F1/MCC/Accuracy
+
+# ── Model iteration mode ─────────────────────────────────────────────────────
+model_iteration: 2

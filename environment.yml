@@ -1,0 +1,15 @@
+name: gemvap-pipeline
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - numpy
+  - scipy
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - plotly
+  - ipython
+  - openpyxl
+  - pip
